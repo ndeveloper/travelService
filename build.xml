@@ -1,0 +1,81 @@
+<?xml version="1.0" ?>
+
+<!-- =====================================================  -->
+<!-- Ant Build para el jar de Auditoria			        -->
+<!-- =====================================================  -->
+
+<project name="travelService" default="deploy" basedir=".">
+
+	<property file="build.properties" />
+
+	<property name="app.dir" location="." />
+
+
+	<!-- Directorio con clases compiladas -->
+	<property name="classes.dir" location="${app.dir}/classes" />
+
+	<property name="javadoc.dir" location="${app.dir}/docs" />
+
+	<property name="deploy.dir" location="${app.dir}/deploy" />
+
+	<property name="src.dir" location="${app.dir}/ejbModule" />
+
+	<property name="server.dir" location="${jboss.deploy.dir}/.." />
+
+	<property name="server.lib.dir" location="${jboss.home}/lib" />
+
+	<property name="jar.name" location="deploy/${project.name}.jar" />
+
+	<path id="lib.path">
+		<fileset dir="${server.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${server.lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${jboss.home}/client">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<target name="init">
+		<path id="build.classpath">
+			<path refid="lib.path" />
+		</path>
+	</target>
+
+	<target name="clean" depends="init">
+		<delete dir="${deploy.dir}" />
+		<delete dir="${classes.dir}" />
+	</target>
+
+	<!-- ========================================= -->
+	<!-- Create Client JAR        				   -->
+	<!-- ========================================= -->
+
+	<target name="build" depends="init" description="Compila las clases">
+		<mkdir dir="${classes.dir}" />
+		<mkdir dir="${classes.dir}/META-INF" />
+		<javac destdir="${classes.dir}" debug="on" deprecation="on" optimize="off" encoding="ISO-8859-1">
+			<src path="${src.dir}" />
+			<classpath refid="build.classpath" />
+			<!-- Descomentar si se quieren ver los Warnings -->
+			<!--compilerarg value="-Xlint:unchecked"/-->
+		</javac>
+		<copy todir="${classes.dir}/META-INF">
+			<fileset dir="${src.dir}/META-INF" />
+		</copy>
+	</target>
+
+	<target name="jar" depends="build" description="Crea un JAR">
+		<mkdir dir="${deploy.dir}" />
+		<jar jarfile="${jar.name}">
+			<fileset dir="${classes.dir}" />
+		</jar>
+	</target>
+
+	<target name="deploy" depends="clean, jar" description="Copia el archivo JAR en el directorio deploy del server">
+		<copy file="${jar.name}" todir="${jboss.deploy.dir}" />
+	</target>
+	
+</project>

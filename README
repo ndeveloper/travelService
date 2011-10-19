@@ -1,0 +1,7 @@
+- Copiar el archivo build.properties.ejemplo con el nombre build.properties
+- Editar el archivo copiado, en la variable jboss.home poner la ruta donde se encuentra
+  instalado el  servidor de aplicaciones.
+- Ejecutar la tarea deploy del archivo build.xml para generar y deployar el proyecto
+- Si el proyecto se deploya correctamente, deben estar expuestos los diguientes servicios web:
+  http://localhost:8080/travelService/CarService?wsdl
+  http://localhost:8080/travelService/HotelService?wsdl
