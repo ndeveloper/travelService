@@ -5,4 +5,5 @@
 - Si el proyecto se deploya correctamente, deben estar expuestos los diguientes servicios web:
   http://localhost:8080/travelService/CarService?wsdl
   http://localhost:8080/travelService/HotelService?wsdl
+  one
   two
