@@ -5,3 +5,4 @@ jboss.deploy.dir=${jboss.home}/server/${jboss.server.configuration}/deploy
 
 project.name=travelService
 project.version=1.0
+propiedad.para.feature=nada
